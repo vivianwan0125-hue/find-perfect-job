@@ -9,16 +9,18 @@ export async function GET() {
 
     if (error) return Response.json({ error: getErrorMessage(error) }, { status: 500 })
 
+    const DEFAULT_TYPES = ['研发', '售前工程师', '海外销售', '其他']
+
     if (!data) {
-      // Return safe defaults if row doesn't exist yet
       return Response.json({
-        data: { id: 1, ai_base_url: 'https://api.openai.com/v1', ai_api_key: null, ai_model: 'gpt-4o-mini' },
+        data: { id: 1, ai_base_url: 'https://api.openai.com/v1', ai_api_key: null, ai_model: 'gpt-4o-mini', position_types: DEFAULT_TYPES },
       })
     }
 
     const masked = {
       ...data,
       ai_api_key: data.ai_api_key ? '••••••••' + data.ai_api_key.slice(-4) : null,
+      position_types: (data.position_types && data.position_types.length > 0) ? data.position_types : DEFAULT_TYPES,
     }
     return Response.json({ data: masked })
   } catch (err) {
@@ -37,6 +39,9 @@ export async function PUT(request: NextRequest) {
     // Only overwrite the key if user typed a new one (not the masked '••••…xxxx' placeholder)
     if (body.ai_api_key && !body.ai_api_key.startsWith('••••')) {
       updates.ai_api_key = body.ai_api_key
+    }
+    if ('position_types' in body && Array.isArray(body.position_types)) {
+      updates.position_types = body.position_types
     }
 
     // upsert handles both "row exists" and "row missing" cases

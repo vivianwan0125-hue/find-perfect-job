@@ -1,15 +1,16 @@
 'use client'
 
-import { JobFilters, POSITION_TYPES, JOB_STATUSES, PRIORITIES } from '@/lib/types'
+import { JobFilters, JOB_STATUSES, PRIORITIES } from '@/lib/types'
 import { Search, X } from 'lucide-react'
 
 interface JobFiltersProps {
   filters: JobFilters
   onChange: (f: JobFilters) => void
   total: number
+  positionTypes: string[]
 }
 
-export default function JobFiltersBar({ filters, onChange, total }: JobFiltersProps) {
+export default function JobFiltersBar({ filters, onChange, total, positionTypes }: JobFiltersProps) {
   const set = (key: keyof JobFilters, val: string) => onChange({ ...filters, [key]: val })
   const hasActive = filters.search || filters.position_type || filters.status || filters.priority
   const reset = () => onChange({ search: '', position_type: '', status: '', priority: '' })
@@ -38,7 +39,7 @@ export default function JobFiltersBar({ filters, onChange, total }: JobFiltersPr
       {/* Filters */}
       <select value={filters.position_type} onChange={(e) => set('position_type', e.target.value)} className={selectClass}>
         <option value="">全部类型</option>
-        {POSITION_TYPES.map((t) => <option key={t}>{t}</option>)}
+        {positionTypes.map((t) => <option key={t}>{t}</option>)}
       </select>
 
       <select value={filters.status} onChange={(e) => set('status', e.target.value)} className={selectClass}>

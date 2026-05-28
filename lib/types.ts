@@ -1,4 +1,4 @@
-export type PositionType = '研发' | '售前工程师' | '海外销售' | '其他'
+export type PositionType = string
 export type JobStatus = '待投递' | '已投递' | '笔试' | '面试' | 'Offer' | '已拒绝'
 export type Priority = '高' | '中' | '低'
 
@@ -35,6 +35,7 @@ export interface AppSettings {
   ai_base_url: string | null
   ai_api_key: string | null
   ai_model: string | null
+  position_types: string[] | null
   updated_at: string
 }
 

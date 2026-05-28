@@ -6,6 +6,7 @@ import JobCard from '@/components/JobCard'
 import JobFiltersBar from '@/components/JobFilters'
 import JobModal from '@/components/JobModal'
 import { Plus, Download, RefreshCw, Briefcase, Sparkles, Users, Trophy } from 'lucide-react'
+import { POSITION_TYPES } from '@/lib/types'
 
 const DEFAULT_FILTERS: JobFilters = { search: '', position_type: '', status: '', priority: '' }
 
@@ -16,6 +17,7 @@ export default function HomePage() {
   const [selectedJob, setSelectedJob] = useState<Job | null>(null)
   const [showAddModal, setShowAddModal] = useState(false)
   const [exporting, setExporting] = useState(false)
+  const [positionTypes, setPositionTypes] = useState<string[]>(POSITION_TYPES)
 
   const fetchJobs = useCallback(async () => {
     setLoading(true)
@@ -34,6 +36,17 @@ export default function HomePage() {
   }, [filters])
 
   useEffect(() => { fetchJobs() }, [fetchJobs])
+
+  useEffect(() => {
+    fetch('/api/settings')
+      .then((r) => r.json())
+      .then((json) => {
+        if (Array.isArray(json.data?.position_types) && json.data.position_types.length > 0) {
+          setPositionTypes(json.data.position_types)
+        }
+      })
+      .catch(() => {})
+  }, [])
 
   async function handleSave(data: Partial<Job>) {
     const res = await fetch('/api/jobs', {
@@ -154,7 +167,7 @@ export default function HomePage() {
       </div>
 
       {/* Filters */}
-      <JobFiltersBar filters={filters} onChange={setFilters} total={jobs.length} />
+      <JobFiltersBar filters={filters} onChange={setFilters} total={jobs.length} positionTypes={positionTypes} />
 
       {/* Job grid */}
       {loading ? (
@@ -186,7 +199,7 @@ export default function HomePage() {
       )}
 
       {showAddModal && (
-        <JobModal onClose={() => setShowAddModal(false)} onSave={handleSave} />
+        <JobModal onClose={() => setShowAddModal(false)} onSave={handleSave} positionTypes={positionTypes} />
       )}
       {selectedJob && (
         <JobModal
@@ -194,6 +207,7 @@ export default function HomePage() {
           onClose={() => setSelectedJob(null)}
           onSave={handleEdit}
           onDelete={handleDelete}
+          positionTypes={positionTypes}
         />
       )}
     </div>

@@ -1,8 +1,8 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { CrawlerSite } from '@/lib/types'
-import { Save, Plus, Trash2, Play, Power, Loader2, CheckCircle2, AlertCircle } from 'lucide-react'
+import { CrawlerSite, POSITION_TYPES } from '@/lib/types'
+import { Save, Plus, Trash2, Play, Power, Loader2, CheckCircle2, AlertCircle, X } from 'lucide-react'
 
 const inputClass = `
   w-full px-3 py-2 rounded-xl text-sm
@@ -26,6 +26,11 @@ export default function SettingsPage() {
   const [aiSaving, setAiSaving] = useState(false)
   const [aiMsg, setAiMsg] = useState<{ type: 'ok' | 'err'; text: string } | null>(null)
 
+  // Position Types
+  const [positionTypes, setPositionTypes] = useState<string[]>(POSITION_TYPES)
+  const [newType, setNewType] = useState('')
+  const [typesSaving, setTypesSaving] = useState(false)
+
   // Crawler Sites
   const [sites, setSites] = useState<CrawlerSite[]>([])
   const [sitesLoading, setSitesLoading] = useState(true)
@@ -48,7 +53,39 @@ export default function SettingsPage() {
         ai_api_key: json.data.ai_api_key ?? '',
         ai_model: json.data.ai_model ?? 'gpt-4o-mini',
       })
+      if (Array.isArray(json.data.position_types) && json.data.position_types.length > 0) {
+        setPositionTypes(json.data.position_types)
+      }
     }
+  }
+
+  async function savePositionTypes(types: string[]) {
+    setTypesSaving(true)
+    try {
+      await fetch('/api/settings', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ position_types: types }),
+      })
+    } finally {
+      setTypesSaving(false)
+    }
+  }
+
+  function addType() {
+    const t = newType.trim()
+    if (!t || positionTypes.includes(t)) return
+    const next = [...positionTypes, t]
+    setPositionTypes(next)
+    setNewType('')
+    savePositionTypes(next)
+  }
+
+  function removeType(t: string) {
+    if (positionTypes.length <= 1) return
+    const next = positionTypes.filter((x) => x !== t)
+    setPositionTypes(next)
+    savePositionTypes(next)
   }
 
   async function fetchSites() {
@@ -207,6 +244,55 @@ export default function SettingsPage() {
             保存配置
           </button>
         </form>
+      </SectionCard>
+
+      {/* Position Types */}
+      <SectionCard title="🏷️ 岗位类型管理">
+        <p className="text-xs mb-3" style={{ color: '#B0A4B4' }}>
+          自定义岗位类型，添加岗位和筛选时都会同步更新。至少保留一个类型。
+        </p>
+
+        {/* Current types */}
+        <div className="flex flex-wrap gap-2 mb-4">
+          {positionTypes.map((t) => (
+            <span
+              key={t}
+              className="flex items-center gap-1.5 px-3 py-1 rounded-full text-sm"
+              style={{ background: 'rgba(196,181,212,0.2)', color: '#7A6A8E', border: '1px solid rgba(196,181,212,0.4)' }}
+            >
+              {t}
+              <button
+                onClick={() => removeType(t)}
+                disabled={positionTypes.length <= 1}
+                className="hover:opacity-60 transition-opacity disabled:opacity-30"
+                title="删除"
+              >
+                <X size={12} />
+              </button>
+            </span>
+          ))}
+          {typesSaving && <Loader2 size={14} className="animate-spin self-center" style={{ color: '#C4B5D4' }} />}
+        </div>
+
+        {/* Add new type */}
+        <div className="flex gap-2">
+          <input
+            className={`${inputClass} flex-1`}
+            placeholder="输入新类型名称，如：产品经理"
+            value={newType}
+            onChange={(e) => setNewType(e.target.value)}
+            onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), addType())}
+          />
+          <button
+            onClick={addType}
+            disabled={!newType.trim() || positionTypes.includes(newType.trim())}
+            className="flex items-center gap-1 px-4 py-2 rounded-xl text-sm font-medium text-white disabled:opacity-50 whitespace-nowrap"
+            style={{ background: 'linear-gradient(135deg,#C4B5D4,#E8C4C4)' }}
+          >
+            <Plus size={13} />
+            添加
+          </button>
+        </div>
       </SectionCard>
 
       {/* Crawler Sites */}

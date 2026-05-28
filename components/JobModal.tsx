@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { Job, POSITION_TYPES, JOB_STATUSES, PRIORITIES, STATUS_NEXT } from '@/lib/types'
+// POSITION_TYPES kept as fallback default
 import { X, Link2, Loader2, Trash2, ArrowRight, ExternalLink } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
@@ -10,6 +11,7 @@ interface JobModalProps {
   onClose: () => void
   onSave: (data: Partial<Job>) => Promise<void>
   onDelete?: () => Promise<void>
+  positionTypes?: string[]
 }
 
 const inputClass = `
@@ -19,7 +21,7 @@ const inputClass = `
   focus:outline-none focus:border-[rgba(196,181,212,0.8)] focus:shadow-[0_0_0_3px_rgba(196,181,212,0.15)]
 `
 
-export default function JobModal({ job, onClose, onSave, onDelete }: JobModalProps) {
+export default function JobModal({ job, onClose, onSave, onDelete, positionTypes = POSITION_TYPES }: JobModalProps) {
   const isEdit = !!job
   const [form, setForm] = useState<Partial<Job>>({
     company_name: '', position_name: '', position_type: '其他',
@@ -186,7 +188,7 @@ export default function JobModal({ job, onClose, onSave, onDelete }: JobModalPro
             <div>
               <label className="block text-xs font-medium mb-1" style={{ color: '#7A6E7E' }}>岗位类型</label>
               <select className={inputClass} value={form.position_type} onChange={(e) => set('position_type', e.target.value)}>
-                {POSITION_TYPES.map((t) => <option key={t}>{t}</option>)}
+                {positionTypes.map((t) => <option key={t}>{t}</option>)}
               </select>
             </div>
             <div>
