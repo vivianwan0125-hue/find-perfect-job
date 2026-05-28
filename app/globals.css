@@ -13,7 +13,6 @@
 }
 
 :root {
-  --background: #f7f0f5;
   --foreground: #5A4E5E;
 }
 
@@ -22,8 +21,7 @@
 }
 
 body {
-  background: linear-gradient(135deg, #F7EEF0 0%, #F0EAF5 40%, #EBF3ED 100%);
-  background-attachment: fixed;
+  background: transparent;
   color: var(--foreground);
   font-family: 'PingFang SC', 'Microsoft YaHei', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   min-height: 100vh;
@@ -31,52 +29,51 @@ body {
 
 /* Glassmorphism card */
 .glass-card {
-  background: rgba(255, 255, 255, 0.45);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(196, 181, 212, 0.35);
+  background: rgba(255, 255, 255, 0.20);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(196, 181, 212, 0.30);
   border-radius: 16px;
   box-shadow: 0 4px 24px rgba(180, 150, 196, 0.08);
-  transition: box-shadow 0.2s, transform 0.2s;
+  transition: box-shadow 0.25s, transform 0.25s;
 }
 
 .glass-card:hover {
-  box-shadow: 0 8px 32px rgba(180, 150, 196, 0.15);
-  transform: translateY(-2px);
+  box-shadow: 0 10px 36px rgba(180, 150, 196, 0.18);
+  transform: translateY(-3px);
 }
 
-/* Nav glassmorphism */
+/* Nav — fully transparent */
 .glass-nav {
-  background: rgba(255, 255, 255, 0.6);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border-bottom: 1px solid rgba(196, 181, 212, 0.3);
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
 }
 
 /* Modal backdrop */
 .modal-backdrop {
-  background: rgba(90, 78, 94, 0.25);
+  background: rgba(90, 78, 94, 0.22);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
 }
 
 /* Status badge colors */
-.status-待投递  { background: rgba(196, 181, 212, 0.25); color: #7B6A8E; border: 1px solid rgba(196, 181, 212, 0.5); }
-.status-已投递  { background: rgba(181, 206, 188, 0.3);  color: #4E7A5A; border: 1px solid rgba(181, 206, 188, 0.6); }
-.status-笔试    { background: rgba(232, 196, 196, 0.3);  color: #8A5A5A; border: 1px solid rgba(232, 196, 196, 0.6); }
-.status-面试    { background: rgba(212, 196, 140, 0.3);  color: #7A6A3A; border: 1px solid rgba(212, 196, 140, 0.6); }
-.status-Offer   { background: rgba(140, 186, 170, 0.35); color: #3A6E5A; border: 1px solid rgba(140, 186, 170, 0.7); }
-.status-已拒绝  { background: rgba(200, 190, 200, 0.2);  color: #907890; border: 1px solid rgba(200, 190, 200, 0.4); }
+.status-待投递  { background: rgba(196, 181, 212, 0.22); color: #7B6A8E; border: 1px solid rgba(196, 181, 212, 0.45); }
+.status-已投递  { background: rgba(181, 206, 188, 0.28); color: #4E7A5A; border: 1px solid rgba(181, 206, 188, 0.55); }
+.status-笔试    { background: rgba(232, 196, 196, 0.28); color: #8A5A5A; border: 1px solid rgba(232, 196, 196, 0.55); }
+.status-面试    { background: rgba(212, 196, 140, 0.28); color: #7A6A3A; border: 1px solid rgba(212, 196, 140, 0.55); }
+.status-Offer   { background: rgba(140, 186, 170, 0.32); color: #3A6E5A; border: 1px solid rgba(140, 186, 170, 0.65); }
+.status-已拒绝  { background: rgba(200, 190, 200, 0.18); color: #907890; border: 1px solid rgba(200, 190, 200, 0.38); }
 
 /* Priority badge */
-.priority-高 { background: rgba(232, 140, 140, 0.2); color: #8A4040; }
-.priority-中 { background: rgba(212, 196, 140, 0.2); color: #7A6040; }
-.priority-低 { background: rgba(181, 206, 188, 0.2); color: #4A6A50; }
+.priority-高 { background: rgba(232, 140, 140, 0.18); color: #8A4040; }
+.priority-中 { background: rgba(212, 196, 140, 0.18); color: #7A6040; }
+.priority-低 { background: rgba(181, 206, 188, 0.18); color: #4A6A50; }
 
-/* Deadline warning */
+/* Deadline warning — pink left border accent */
 .deadline-soon {
-  background: rgba(255, 200, 100, 0.15);
-  border-color: rgba(255, 180, 80, 0.4) !important;
+  border-left: 3px solid rgba(220, 160, 160, 0.75) !important;
+  background: rgba(255, 255, 255, 0.22) !important;
 }
 
 /* New badge */
@@ -93,8 +90,8 @@ body {
 /* Scrollbar */
 ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: rgba(196, 181, 212, 0.5); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: rgba(196, 181, 212, 0.8); }
+::-webkit-scrollbar-thumb { background: rgba(196, 181, 212, 0.45); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(196, 181, 212, 0.75); }
 
 /* Input focus */
 input:focus, select:focus, textarea:focus {
@@ -117,14 +114,15 @@ input:focus, select:focus, textarea:focus {
 .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
 .btn-primary:active { transform: translateY(0); }
 
-/* Easter egg */
+/* Easter egg — between grass layer and cards, one size below nav text */
 .easter-egg {
   position: fixed;
-  bottom: 12px;
-  right: 16px;
-  font-size: 0.6rem;
-  color: rgba(196, 181, 212, 0.35);
-  letter-spacing: 0.08em;
+  bottom: 22px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.75rem;
+  color: rgba(122, 106, 138, 0.38);
+  letter-spacing: 0.12em;
   pointer-events: none;
   user-select: none;
   z-index: 10;
