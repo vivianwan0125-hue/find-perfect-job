@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm --version)",
+      "Bash(Get-ChildItem \"C:\\\\Users\\\\Windows11\\\\Desktop\\\\find-perfect-job\" -ErrorAction SilentlyContinue)",
+      "Bash(Select-Object Name)",
+      "Bash(npx create-next-app@latest . --typescript --tailwind --eslint --app --no-src-dir --import-alias \"@/*\" --yes)"
+    ]
+  }
+}
