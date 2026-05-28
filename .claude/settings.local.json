@@ -4,7 +4,14 @@
       "Bash(npm --version)",
       "Bash(Get-ChildItem \"C:\\\\Users\\\\Windows11\\\\Desktop\\\\find-perfect-job\" -ErrorAction SilentlyContinue)",
       "Bash(Select-Object Name)",
-      "Bash(npx create-next-app@latest . --typescript --tailwind --eslint --app --no-src-dir --import-alias \"@/*\" --yes)"
+      "Bash(npx create-next-app@latest . --typescript --tailwind --eslint --app --no-src-dir --import-alias \"@/*\" --yes)",
+      "PowerShell(Resolve-DnsName *)",
+      "PowerShell(nslookup *)",
+      "PowerShell(taskkill *)",
+      "PowerShell(node -e \"const u = require\\('node:undici'\\); console.log\\('undici ok, keys:', Object.keys\\(u\\).slice\\(0,5\\).join\\(','\\)\\)\" 2>&1)",
+      "PowerShell(node -e \"const u = require\\('./node_modules/undici/index.js'\\); console.log\\('found undici, keys:', Object.keys\\(u\\).slice\\(0,6\\).join\\(','\\)\\)\" 2>&1)",
+      "PowerShell(node -e \"const u = require\\('./node_modules/undici/index.js'\\); console.log\\('fetch:', typeof u.fetch, 'Agent:', typeof u.Agent, 'setGlobalDispatcher:', typeof u.setGlobalDispatcher\\)\")",
+      "PowerShell(node -e \"const u = require\\('./node_modules/undici/index.js'\\); console.log\\('ProxyAgent:', typeof u.ProxyAgent\\)\")"
     ]
   }
 }
